@@ -1,0 +1,15 @@
+<!DOCTYPE HTML>
+<html>
+	<body>
+		<form action="/" method="POST">
+			Enter a valid date (From)
+			<input type="date" name="date1"> </br>
+            Enter a valid date (To)
+			<input type="date" name="date2"> </br>
+			<button type="submit" value="submit"> Check</button>
+		</form>
+		{%if msg%}
+		<p>{{msg}} </p>
+		{%endif%}
+	</body>
+</html>
