@@ -1,50 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Location Map</title>
+  <title>BMI Calculator</title>
 </head>
 <body>
-    <form action="/" method="POST">
-        <label for="location">Enter the location:</label>
-        <input type="text" id="location" name="location" required>
-        <button type="submit">Submit</button>
-    </form>
-    <div id="map" style = "width: 600px; height:400px;"></div>
+  <h2>BMI Calculator</h2>
+  <form method="POST">
+    <label>Weight (kg):</label><br>
+    <input type="number" name="weight" step="any" required><br><br>
 
-    <script src="https://js.api.here.com/v3/3.1/mapsjs-core.js" type="text/javascript" charset="utf-8"></script>
-    <script src="https://js.api.here.com/v3/3.1/mapsjs-service.js" type="text/javascript" charset="utf-8"></script>
+    <label>Height (cm):</label><br>
+    <input type="number" name="height" step="any" required><br><br>
 
-        {% if data %}
-            const lat = {{data.latitude}};
-            const lng = {{data.longitude}};
-            const apiKey = "{{ apikey }}";
+    <button type="submit">Calculate BMI</button>
+  </form>
 
-            var platform = new H.service.Platform({
-                'apiKey':apiKey
-            })
-
-            var maptypes = platform.createDefaultLayers();
-
-            var maps = new H.Map(
-                document.getElementById('map'),
-                maptypes.vector.normal.amp,
-                {
-                    zoom: 15,
-                    center: {lat: lat, lng: lng}
-                }
-            );
-
-            var mapEvents = new H.mapevents.MapEvents(map);
-
-            var behavior = new H.mapevents.Behavior(mapEvents);
-
-            var ui = H.ui.UI.createDefault(map, maptypes);
-        {% endif %}
-    </script>
-    {% if error %}
-        <p>{{error}}</p>
+  {% if bmi %}
+    <h3>Your BMI: {{ bmi if bmi == 'Invalid input' else "%.1f"|format(bmi) }}</h3>
+    {% if category %}
+      <p>Category: {{ category }}</p>
     {% endif %}
+  {% endif %}
 </body>
 </html>

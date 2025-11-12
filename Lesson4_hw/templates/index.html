@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Vowel Counter</title>
+</head>
+<body>
+  <h2>Vowel Counter</h2>
+  <form method="POST">
+    <label>Enter your text:</label><br>
+    <textarea name="text" rows="4" cols="40" required>{{ text }}</textarea><br><br>
+    <button type="submit">Count Vowels</button>
+  </form>
+  {% if count %}
+    <h3>Number of vowels: {{ count }}</h3>
+  {% endif %}
+</body>
+</html>
