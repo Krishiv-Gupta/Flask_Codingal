@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Winner</title>
+    <link rel="stylesheet" type="text/css" href="static/styles.css">
+</head>
+<body>
+    <div align="center">
+        <div align="center" class="border">
+            <div class="header">
+                <h1 class="word">Todays Winner</h1>
+            </div>
+            {% if user_name %}
+            <h4 class="bottom">Highest amount of purchase is done by  {{user_name}}, Whose contact number is {{phone_number}}</h4>
+            <a href="/" class="btn">Entry page</a>
+            {% else %}
+            <h1 class="bottom">Click the button to see the winner</h1>
+            <a href="/winner" class="btn">Todays Winner</a>
+            {%endif%}
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index</title>
+    <link rel="stylesheet" type="text/css" href="static/styles.css">
+</head>
+<body>
+    <div class="form-style-2">
+        <div class="form-style-2-heading">Customer Details</div>
+        <form action="/details" method="POST">
+            <label for="user_name">
+                <span>Name</span>
+                <input type="text" class="input-field" name="user_name" value="" placeholder="Enter Name"/>
+            </label>
+            <label for="contact_number">
+                <span>Phone</span>
+                <input type="text" class="input-field" name="contact_number" value="" placeholder="Enter phone number"/>
+            </label>
+            <label for="user_name">
+                <span>Total Items</span>
+                <input type="text" class="input-field" name="number_of_items" value="" placeholder="Enter the number of items"/>
+            </label>
+            <label for="amount">
+                <span>Total Amount</span>
+                <input type="text" class="input-field" name="amount" value="" placeholder="Enter the total amount"/>
+            </label>
+            <label for="current_date">
+                <span>Date</span>
+                <input type="text" class="input-field" name="current_date" value="" placeholder="Enter today's date"/>
+            </label>
+            <div>
+                <a href="/winner" class="btn">Todays Winner</a>
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

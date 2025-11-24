@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+
+        .resume-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        #header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        #name {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        #email, #contact {
+            font-size: 14px;
+            margin: 5px 0;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        h3 {
+            color: #2c3e50;
+            font-size: 18px;
+            margin-top: 25px;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #3498db;
+        }
+
+        h3:first-child {
+            margin-top: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+
+        table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        #heading td {
+            background-color: #34495e;
+            color: white;
+            font-weight: bold;
+        }
+
+        ul {
+            margin-left: 20px;
+            margin-top: 8px;
+        }
+
+        li {
+            margin: 8px 0;
+            line-height: 1.6;
+        }
+
+        .declaration {
+            background-color: #ecf0f1;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 10px;
+            font-style: italic;
+            color: #555;
+        }
+
+        #footer {
+            height: 20px;
+            background-color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+    <div class="resume-container">
+        <div id="header">
+            <p id="name">{{user_name}}</p>
+            <p id="email">{{email_id}}</p>
+            <p id="contact">{{contact_number}}</p>
+        </div>
+        
+        <div class="content">
+            <h3>Educational Qualifications</h3>
+            <table>
+                <tr id="heading">
+                    <td>Grade</td>
+                    <td>School Name</td>
+                    <td>Percentage</td>
+                    <td>Year</td>
+                </tr>
+                <tr>
+                    <td>{{grade}}</td>
+                    <td>{{school_name}}</td>
+                    <td>{{percentage}}</td>
+                    <td>{{year}}</td>
+                </tr>
+            </table>
+
+            <h3>Independent Course</h3>
+            <ul>
+                <li>{{independent_course}}</li>
+            </ul>
+
+            <h3>Hobbies</h3>
+            <ul>
+                <li>{{hobbies}}</li>
+            </ul>
+
+            <h3>Personal Information</h3>
+            <ul>
+                <li>DOB: {{dob}}</li>
+                <li>Father Name: {{father_name}}</li>
+                <li>Mother Name: {{mother_name}}</li>
+            </ul>
+
+            <h3>Declaration</h3>
+            <p class="declaration">
+                I hereby declare that the details furnished above are true and correct to the best of my knowledge and belief.
+            </p>
+        </div>
+        
+        <div id="footer"></div>
+    </div>
+</body>
+</html>

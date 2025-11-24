@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank App Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <h2>MyBank</h2>
+            <nav class="nav">
+                <a href="#">Dashboard</a>
+                <a href="#">Accounts</a>
+                <a href="#">Payments</a>
+                <a href="#">Settings</a>
+            </nav>
+            <button class="logout">Logout</button>
+        </aside>
+        <main class="main">
+            <section class="account-summary">
+                <div class="account-info">
+                    <span>Welcome, {{ name }}!</span>
+                    <span>Current Balance</span>
+                    <div class="account-balance">${{ "%.2f"|format(balance) }}</div>
+                    <span>Account No: 1234 5678 9012</span>
+                </div>
+                <div class="quick-actions">
+                    <button>Send Money</button>
+                    <button>Deposit</button>
+                    <button>Withdraw</button>
+                </div>
+            </section>
+            <section class="transactions">
+                <h3>Recent Transactions</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>Type</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if transactions %}
+                            {% for transaction in transactions %}
+                            <tr>
+                                <td>{{ transaction[2] }}</td>
+                                <td>{{ transaction[3] }}</td>
+                                <td>{{ transaction[4] }}</td>
+                                <td>{{ '+' if transaction[4] == 'Credit' else '-' }}${{ "%.2f"|format(transaction[5]) }}</td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td>2024-06-01</td>
+                                <td>Starbucks</td>
+                                <td>Debit</td>
+                                <td>-$5.50</td>
+                            </tr>
+                            <tr>
+                                <td>2024-05-30</td>
+                                <td>Salary</td>
+                                <td>Credit</td>
+                                <td>+$2,000.00</td>
+                            </tr>
+                            <tr>
+                                <td>2024-05-28</td>
+                                <td>Amazon</td>
+                                <td>Debit</td>
+                                <td>-$120.00</td>
+                            </tr>
+                            <tr>
+                                <td>2024-05-25</td>
+                                <td>Electricity Bill</td>
+                                <td>Debit</td>
+                                <td>-$60.00</td>
+                            </tr>
+                            <tr>
+                                <td>2024-05-22</td>
+                                <td>Transfer from John</td>
+                                <td>Credit</td>
+                                <td>+$150.00</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal -->
+    <div id="transaction-modal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.3);align-items:center;justify-content:center;z-index:1000;">
+        <div id="modal-content" style="background:#fff;padding:32px 24px;border-radius:10px;min-width:320px;box-shadow:0 2px 16px rgba(0,0,0,0.15);position:relative;">
+            <button id="modal-close" style="position:absolute;top:8px;right:12px;background:none;border:none;font-size:1.3em;cursor:pointer;">&times;</button>
+            <h2 id="modal-title"></h2>
+            <form id="modal-form">
+                <div style="margin-bottom:16px;">
+                    <label>Description:<br><input type="text" name="desc" required style="width:100%;padding:6px 8px;margin-top:4px;"></label>
+                </div>
+                <div style="margin-bottom:16px;">
+                    <label>Amount:<br><input type="number" name="amount" required min="0.01" step="0.01" style="width:100%;padding:6px 8px;margin-top:4px;"></label>
+                </div>
+                <button type="submit" style="background:#3949ab;color:#fff;border:none;padding:10px 20px;border-radius:6px;cursor:pointer;">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const actions = ['Send Money', 'Deposit', 'Withdraw'];
+            const quickActions = document.querySelectorAll('.quick-actions button');
+            const transactionsTable = document.querySelector('.transactions tbody');
+            const logoutBtn = document.querySelector('.logout');
+            const modal = document.getElementById('transaction-modal');
+            const balanceElem = document.querySelector('.account-balance');
+
+            function showModal(action) {
+                modal.style.display = 'flex';
+                document.getElementById('modal-title').textContent = action;
+                document.getElementById('modal-form').reset();
+            }
+
+            function hideModal() {
+                modal.style.display = 'none';
+            }
+
+            document.getElementById('modal-close').onclick = hideModal;
+            modal.onclick = function (e) {
+                if (e.target === modal) hideModal();
+            };
+
+            function addTransactionToTable({ date, description, type, amount }) {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${date}</td>
+                    <td>${description}</td>
+                    <td>${type}</td>
+                    <td>${type === 'Debit' ? '-' : '+'}$${parseFloat(amount).toFixed(2)}</td>
+                `;
+                transactionsTable.insertBefore(tr, transactionsTable.firstChild);
+            }
+
+            quickActions.forEach((btn, idx) => {
+                btn.addEventListener('click', () => {
+                    showModal(actions[idx]);
+                });
+            });
+
+            document.getElementById('modal-form').onsubmit = async function (e) {
+                e.preventDefault();
+                const action = document.getElementById('modal-title').textContent;
+                const description = this.desc.value.trim();
+                const amount = this.amount.value;
+                
+                if (!description || !amount) return;
+
+                try {
+                    const response = await fetch('/add_transaction', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            action: action,
+                            description: description,
+                            amount: amount
+                        })
+                    });
+
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        addTransactionToTable({
+                            date: data.date,
+                            description: data.description,
+                            type: data.type,
+                            amount: data.amount
+                        });
+                        balanceElem.textContent = `$${data.new_balance.toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2})}`;
+                        hideModal();
+                    } else {
+                        alert('Transaction failed: ' + data.message);
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('An error occurred while processing the transaction');
+                }
+            };
+
+            logoutBtn.addEventListener('click', function () {
+                if (confirm('Are you sure you want to logout?')) {
+                    window.location.href = '/logout';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
