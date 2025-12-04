@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Highest Scorer</title>
+    <link rel="stylesheet" type="text/css" href="static/styles.css">
+</head>
+<body>
+    <div align="center">
+        <div align="center" class="border">
+            <div class="header">
+                <h1 class="word">Highest Scorer</h1>
+            </div>
+            {% if name %}
+            <h4 class="bottom">Highest marks scored are {{marks}} by {{name}} of class {{class1}} </h4>
+            <a href="/" class="btn">Entry page</a>
+            {% else %}
+            <h1 class="bottom">Click the button to see the highest scorer</h1>
+            <a href="/highestscorer" class="btn">Highest Scorer</a>
+            {%endif%}
+        </div>
+    </div>
+</body>
+</html>

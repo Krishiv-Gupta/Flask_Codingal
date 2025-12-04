@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index</title>
+    <link rel="stylesheet" type="text/css" href="static/styles.css">
+</head>
+<body>
+    <div class="form-style-2">
+        <div class="form-style-2-heading">Student Details</div>
+        <form action="/details" method="POST">
+            <label for="user_name">
+                <span>Name</span>
+                <input type="text" class="input-field" name="name" value="" placeholder="Enter Name"/>
+            </label>
+            <label for="contact_number">
+                <span>Class</span>
+                <input type="text" class="input-field" name="class" value="" placeholder="Enter phone number"/>
+            </label>
+            <label for="user_name">
+                <span>Marks</span>
+                <input type="text" class="input-field" name="marks" value="" placeholder="Enter the number of items"/>
+            </label>
+            <div>
+                <a href="/highestscorer" class="btn">Highest Mark scorer</a>
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
