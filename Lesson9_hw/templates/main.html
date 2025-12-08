@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Composer</title>
+</head>
+<body>
+    <form action="/send" method="POST">
+        Enter Receiver Email Address: <input type="email" name="r_email" />
+        Enter Subject: <input type="text" name="subject" />
+        Enter Message: <input type="text" name="message" />
+        <input type="submit" value="Submit">
+    </form>
+    {{% if sent %}}
+        <h4>Email was sent.</h4>
+    {{% else %}}
+        <h4>Email was not sent.</h4>
+    {{% endif %}}
+</body>
+</html>
