@@ -6,8 +6,8 @@ app = Flask(__name__)
 
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = 'krishivgupta2009@gmail.com'
-app.config['MAIL_PASSWORD'] = 'sbml gimi vqou ntjp'
+app.config['MAIL_USERNAME'] = ''
+app.config['MAIL_PASSWORD'] = ''
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 
@@ -19,7 +19,7 @@ otp = randint(000000, 999999)
 @app.route('/verify', methods=['POST'])
 def verify():
     email = request.form["email"]
-    msg = Message('OTP', sender='krishivgupta2009@gmail.com', recipients=[email])
+    msg = Message('OTP', sender=app.config['MAIL_USERNAME'], recipients=[email])
     msg.body = str(otp)
     mail.send(msg)
     return render_template('page.html')
